@@ -10,7 +10,7 @@ GEN_RESOURCES_CLI_NAME=argocd-resources-gen
 HOST_OS:=$(shell go env GOOS)
 HOST_ARCH:=$(shell go env GOARCH)
 
-TARGET_ARCH?=linux/amd64
+TARGET_ARCH?=linux/arm64
 
 VERSION=$(shell cat ${CURRENT_DIR}/VERSION)
 BUILD_DATE:=$(if $(BUILD_DATE),$(BUILD_DATE),$(shell date -u +'%Y-%m-%dT%H:%M:%SZ'))
@@ -240,7 +240,7 @@ cli: test-tools-image
 
 .PHONY: cli-local
 cli-local: clean-debug
-	CGO_ENABLED=${CGO_FLAG} GODEBUG="tarinsecurepath=0,zipinsecurepath=0" go build -v -ldflags '${LDFLAGS}' -o ${DIST_DIR}/${CLI_NAME} ./cmd
+	CGO_ENABLED=${CGO_FLAG} GODEBUG="tarinsecurepath=0,zipinsecurepath=0" go build -buildvcs=false -v -ldflags '${LDFLAGS}' -o ${DIST_DIR}/${CLI_NAME} ./cmd
 
 .PHONY: gen-resources-cli-local
 gen-resources-cli-local: clean-debug

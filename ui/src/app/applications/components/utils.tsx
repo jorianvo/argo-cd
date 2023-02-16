@@ -637,7 +637,12 @@ export function syncStatusMessage(app: appModels.Application) {
     const rev = app.status.sync.revision || source.targetRevision || 'HEAD';
     let message = source.targetRevision || 'HEAD';
 
-    if (app.status.sync.revision) {
+    if (app.status.sync.revisions) {
+        if (app.status.sync.revisions.length > 0) {
+            message += ' (' + app.status.sync.revisions[0] + ')';
+        }
+    }
+    else if (app.status.sync.revision) {
         if (source.chart) {
             message += ' (' + app.status.sync.revision + ')';
         } else if (app.status.sync.revision.length >= 7 && !app.status.sync.revision.startsWith(source.targetRevision)) {
